@@ -1,0 +1,1 @@
+python -m src.loguru_wrapper.main "$@"

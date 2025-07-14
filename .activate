@@ -1,0 +1,9 @@
+# Activate virtual environment
+source .venv/bin/activate
+
+# PYTHONPATH
+export PYTHONPATH=$PYTHONPATH:/opt/workspace/loguru_wrapper/src
+export PYTHONPATH=$PYTHONPATH:/opt/workspace/frame_info/src
+
+# PATH
+export PATH=$PATH:/opt/workspace/loguru_wrapper/bin
