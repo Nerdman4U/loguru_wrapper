@@ -7,26 +7,26 @@ from unittest.mock import patch, MagicMock
 import sys
 from loguru import logger as loguru_logger
 
-from loguru_wrapper import logger, LoguruWrapper, LoggerConfig
+from loguru_wrapper import loguru, LoguruWrapper, LoggerConfig
 
 
-class TestLoggerWrapper(unittest.TestCase):  # pylint: disable=too-many-public-methods
+class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-methods
     """Test cases for generated utility methods."""
 
     def test_logger_returns_loguru_wrapper_instance(self):
-        """Test that logger() returns a LoguruWrapper instance."""
-        result = logger()
+        """Test that loguru() returns a LoguruWrapper instance."""
+        result = loguru()
         self.assertIsInstance(result, LoguruWrapper)
 
     def test_logger_with_custom_offset(self):
-        """Test that logger() accepts custom offset parameter."""
-        result = logger(offset=3)
+        """Test that loguru() accepts custom offset parameter."""
+        result = loguru(offset=3)
         self.assertIsInstance(result, LoguruWrapper)
 
     def test_logger_with_custom_config(self):
-        """Test that logger() accepts custom LoggerConfig parameter."""
+        """Test that loguru() accepts custom LoggerConfig parameter."""
         config = LoggerConfig(default_level="DEBUG")
-        result = logger(config=config)
+        result = loguru(config=config)
         self.assertIsInstance(result, LoguruWrapper)
 
     def test_loguru_wrapper_caller_info_methods(self):

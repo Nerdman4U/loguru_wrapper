@@ -6,7 +6,7 @@ import importlib.metadata
 
 # 3rd party imports
 from typing import TYPE_CHECKING
-from frame_info import frame_info as finfo
+from stackwalker import stackwalker
 
 # 1st party imports
 from loguru_wrapper.logger_wrapper import LoguruWrapper
@@ -18,7 +18,7 @@ except importlib.metadata.PackageNotFoundError:
     __version_number__ = "0.0.0"
 
 
-def logger(offset: int = 2, config: LoggerConfig = LoggerConfig()) -> LoguruWrapper:
+def loguru(offset: int = 2, config: LoggerConfig = LoggerConfig()) -> LoguruWrapper:
     """Create a LoggerWrapper instance with automatic caller context detection.
 
     This factory function creates a LoggerWrapper that automatically captures
@@ -59,7 +59,7 @@ def logger(offset: int = 2, config: LoggerConfig = LoggerConfig()) -> LoguruWrap
         output. If your logs show internal wrapper function names instead of
         your actual calling function, try increasing the offset value.
     """
-    frame_info = finfo.get_frame_by_name(
+    frame_info = stackwalker.get_frame_by_name(
         module_name='frame_info.frame_info',
         caller_name='get_frame_by_name',
         offset=offset
@@ -69,12 +69,12 @@ def logger(offset: int = 2, config: LoggerConfig = LoggerConfig()) -> LoguruWrap
 
 def get_frame_name_list():
     """Debug function to print frame names for debugging purposes."""
-    return finfo.get_frame_name_list()
+    return stackwalker.get_frame_name_list()
 
 
 if __name__ == "__main__":
     # Example usage of the logger
-    log = logger()
+    log = loguru()
     log.debug("This is a debug message with value: {}", 42)
     log.info("This is an info message with value: {}", "test")
     log.warning("This is a warning message with value: {}", [1, 2, 3])

@@ -8,6 +8,7 @@ authors = [{ name = "Joni Töyrylä", email = "info@jonitoyryla.eu" }]
 version = "0.1.0"
 description = ""
 requires-python = ">=3.10"
+dependencies = ["loguru>=0.7.3", "stackwalker>=0.4.2"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -18,11 +19,10 @@ where = ["src"]
 include-package-data = false
 
 [tool.setuptools.package-data]
-
-loguru_wrapper = []
-
 # Data folders included in the package
 # Example: loguru_wrapper = ["data/**/*", ".gim/**/*"]
+loguru_wrapper = []
+
 [project.scripts]
 # Script to run the application
 # Example: loguru_wrapper = "loguru_wrapper.main:main"
@@ -75,13 +75,3 @@ style = [
         "fg:#858585 italic",
     ],
 ]
-
-[tool.black]
-extend-exclude = '''
-    (
-        tests/fixtures/*
-        | dist/*
-    )
-'''
-target-version = ['py310']
-line-length = 88
