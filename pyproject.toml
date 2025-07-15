@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "loguru_wrapper"
 authors = [{ name = "Joni Töyrylä", email = "info@jonitoyryla.eu" }]
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 requires-python = ">=3.10"
 dependencies = ["loguru>=0.7.3", "stackwalker>=0.4.2"]
@@ -29,7 +29,7 @@ loguru_wrapper = []
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "0.1.0"
+version = "0.1.1"
 tag_format = "$version"
 version_files = ["pyproject.toml:^version"]
 update_changelog_on_bump = true
