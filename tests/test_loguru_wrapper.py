@@ -7,7 +7,8 @@ from unittest.mock import patch, MagicMock
 import sys
 from loguru import logger as loguru_logger
 
-from loguru_wrapper import loguru, LoguruWrapper, LoggerConfig
+from loguru_wrapper import loguru, LoguruWrapper
+from loguru_wrapper.loguru_config import LoguruConfig
 
 
 class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-methods
@@ -24,8 +25,8 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
         self.assertIsInstance(result, LoguruWrapper)
 
     def test_logger_with_custom_config(self):
-        """Test that loguru() accepts custom LoggerConfig parameter."""
-        config = LoggerConfig(default_level="DEBUG")
+        """Test that loguru() accepts custom LoguruConfig parameter."""
+        config = LoguruConfig(default_level="DEBUG")
         result = loguru(config=config)
         self.assertIsInstance(result, LoguruWrapper)
 
@@ -67,7 +68,7 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
     def test_transform_args_with_callables(self):
         """Test transform_args preserves callable arguments."""
         wrapper = LoguruWrapper()
-        def test_func(): return "test"
+        def test_func(): return "test"  # pylint: disable=multiple-statements
 
         result = wrapper.transform_args([test_func])
         self.assertEqual(len(result), 1)
@@ -87,7 +88,7 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
     def test_transform_args_mixed(self):
         """Test transform_args with mixed callable and non-callable arguments."""
         wrapper = LoguruWrapper()
-        def test_func(): return "func_result"
+        def test_func(): return "func_result"  # pylint: disable=multiple-statements
         test_value = "string_value"
 
         result = wrapper.transform_args([test_func, test_value])
@@ -97,7 +98,7 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
         self.assertEqual(result[0](), "func_result")
         self.assertEqual(result[1](), "string_value")
 
-    @patch('loguru_wrapper.logger_wrapper.loguru_logger')
+    @patch('loguru_wrapper.loguru_wrapper.loguru_logger')
     def test_lazy_logger_caching(self, mock_loguru):
         """Test that lazy_logger caches the logger instance."""
         mock_logger_instance = MagicMock()
@@ -113,8 +114,8 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
 
         self.assertIs(result1, result2)
 
-    @patch('loguru_wrapper.logger_wrapper.loguru_logger')
-    def test_debug_method(self, mock_loguru):
+    @patch('loguru_wrapper.loguru_wrapper.loguru_logger')
+    def test_debug_method(self, mock_loguru):  # pylint: disable=unused-argument
         """Test debug logging method."""
         wrapper = LoguruWrapper()
         with patch.object(wrapper, 'do_log') as mock_do_log:
@@ -122,8 +123,8 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
             mock_do_log.assert_called_once_with(
                 "test message", "arg1", method_name="debug")
 
-    @patch('loguru_wrapper.logger_wrapper.loguru_logger')
-    def test_info_method(self, mock_loguru):
+    @patch('loguru_wrapper.loguru_wrapper.loguru_logger')
+    def test_info_method(self, mock_loguru):  # pylint: disable=unused-argument
         """Test info logging method."""
         wrapper = LoguruWrapper()
         with patch.object(wrapper, 'do_log') as mock_do_log:
@@ -131,8 +132,8 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
             mock_do_log.assert_called_once_with(
                 "test message", "arg1", method_name="info")
 
-    @patch('loguru_wrapper.logger_wrapper.loguru_logger')
-    def test_success_method(self, mock_loguru):
+    @patch('loguru_wrapper.loguru_wrapper.loguru_logger')
+    def test_success_method(self, mock_loguru):  # pylint: disable=unused-argument
         """Test success logging method."""
         wrapper = LoguruWrapper()
         with patch.object(wrapper, 'do_log') as mock_do_log:
@@ -140,8 +141,8 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
             mock_do_log.assert_called_once_with(
                 "test message", "arg1", method_name="success")
 
-    @patch('loguru_wrapper.logger_wrapper.loguru_logger')
-    def test_warning_method(self, mock_loguru):
+    @patch('loguru_wrapper.loguru_wrapper.loguru_logger')
+    def test_warning_method(self, mock_loguru):  # pylint: disable=unused-argument
         """Test warning logging method."""
         wrapper = LoguruWrapper()
         with patch.object(wrapper, 'do_log') as mock_do_log:
@@ -149,8 +150,8 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
             mock_do_log.assert_called_once_with(
                 "test message", "arg1", method_name="warning")
 
-    @patch('loguru_wrapper.logger_wrapper.loguru_logger')
-    def test_error_method(self, mock_loguru):
+    @patch('loguru_wrapper.loguru_wrapper.loguru_logger')
+    def test_error_method(self, mock_loguru):  # pylint: disable=unused-argument
         """Test error logging method."""
         wrapper = LoguruWrapper()
         with patch.object(wrapper, 'do_log') as mock_do_log:
@@ -158,8 +159,8 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
             mock_do_log.assert_called_once_with(
                 "test message", "arg1", method_name="error")
 
-    @patch('loguru_wrapper.logger_wrapper.loguru_logger')
-    def test_critical_method(self, mock_loguru):
+    @patch('loguru_wrapper.loguru_wrapper.loguru_logger')
+    def test_critical_method(self, mock_loguru):  # pylint: disable=unused-argument
         """Test critical logging method."""
         wrapper = LoguruWrapper()
         with patch.object(wrapper, 'do_log') as mock_do_log:
@@ -275,18 +276,18 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
             self.assertEqual(args[0], "test {} message {}")
 
     def test_logger_config_defaults(self):
-        """Test LoggerConfig default values."""
-        config = LoggerConfig()
+        """Test LoguruConfig default values."""
+        config = LoguruConfig()
 
         self.assertIn("time:YYYY-MM-DD HH:mm:ss.SSS", config.format_string)
-        self.assertEqual(config.default_level, "INFO")
+        self.assertEqual(config.default_level, "DEBUG")
         self.assertTrue(config.enable_lazy)
         self.assertEqual(config.sink, sys.stderr)
 
     def test_logger_config_custom_values(self):
-        """Test LoggerConfig with custom values."""
+        """Test LoguruConfig with custom values."""
         custom_format = "<level>{level}</level> | {message}"
-        config = LoggerConfig(
+        config = LoguruConfig(
             format_string=custom_format,
             default_level="DEBUG",
             enable_lazy=False
@@ -295,6 +296,15 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
         self.assertEqual(config.format_string, custom_format)
         self.assertEqual(config.default_level, "DEBUG")
         self.assertFalse(config.enable_lazy)
+
+    def test_logger_prints_multiple_times(self):
+        """Test that logger prints multiple times for different log levels."""
+        def get_username():
+            return "john_doe"
+        item_count = 5
+
+        loguru().debug("User: {}", get_username)  # Lazy evaluation
+        loguru().info("Processing %s items", item_count)  # Format conversion
 
 
 if __name__ == '__main__':

@@ -9,8 +9,8 @@ from typing import TYPE_CHECKING
 from stackwalker import stackwalker
 
 # 1st party imports
-from loguru_wrapper.logger_wrapper import LoguruWrapper
-from loguru_wrapper.logger_config import LoggerConfig
+from loguru_wrapper.loguru_wrapper import LoguruWrapper
+from loguru_wrapper.loguru_config import LoguruConfig
 
 try:
     __version_number__ = importlib.metadata.version(__name__)
@@ -18,7 +18,7 @@ except importlib.metadata.PackageNotFoundError:
     __version_number__ = "0.0.0"
 
 
-def loguru(offset: int = 2, config: LoggerConfig = LoggerConfig()) -> LoguruWrapper:
+def loguru(offset: int = 2, config: LoguruConfig = LoguruConfig()) -> LoguruWrapper:
     """Create a LoggerWrapper instance with automatic caller context detection.
 
     This factory function creates a LoggerWrapper that automatically captures
@@ -60,7 +60,7 @@ def loguru(offset: int = 2, config: LoggerConfig = LoggerConfig()) -> LoguruWrap
         your actual calling function, try increasing the offset value.
     """
     frame_info = stackwalker.get_frame_by_name(
-        module_name='frame_info.frame_info',
+        module_name='stackwalker.stackwalker',
         caller_name='get_frame_by_name',
         offset=offset
     )
@@ -73,17 +73,30 @@ def get_frame_name_list():
 
 
 if __name__ == "__main__":
+
     # Example usage of the logger
-    log = loguru()
-    log.debug("This is a debug message with value: {}", 42)
-    log.info("This is an info message with value: {}", "test")
-    log.warning("This is a warning message with value: {}", [1, 2, 3])
-    log.error("This is an error message with value: {}", {"key": "value"})
-    log.critical("This is a critical message with value: {}", None)
+    def my_function():
+        """Example function demonstrating lazy logging with caller context."""
+        def get_username():
+            return "john_doe"
+        item_count = 5
+        loguru().debug("User: {}", get_username)  # Lazy evaluation
+        loguru().info("Processing %s items", item_count)  # Format conversion
 
-    log.structured('Something', key1='value1', key2=42, key3=True)
+    def my_function2():
+        """Another example function to show different log levels."""
+        log = loguru()
+        log.debug("This is a debug message with value: {}", 42)
+        log.info("This is an info message with value: {}", "test")
+        log.warning("This is a warning message with value: {}", [1, 2, 3])
+        log.error("This is an error message with value: {}", {"key": "value"})
+        log.critical("This is a critical message with value: {}", None)
 
-    try:
-        raise ValueError("An example exception")
-    except ValueError as e:
-        log.exception("An error occurred", extra_info='additional context')
+        log.structured('Something', key1='value1', key2=42, key3=True)
+
+        try:
+            raise ValueError("An example exception")
+        except ValueError as e:
+            log.exception("An error occurred", extra_info='additional context', exc=e)
+
+    my_function()

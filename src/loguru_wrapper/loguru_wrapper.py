@@ -43,7 +43,7 @@ import traceback
 
 # 3rd party imports
 from loguru import logger as loguru_logger
-from loguru_wrapper.logger_config import LoggerConfig
+from loguru_wrapper.loguru_config import LoguruConfig
 
 if TYPE_CHECKING:
     from loguru import Logger
@@ -55,10 +55,10 @@ class LoguruWrapper:
     Provides convenient access to loguru logging methods with automatic
     lazy evaluation of log message parameters.
     """
-    __config: LoggerConfig
+    __config: LoguruConfig
     __cached_logger: Logger | None
 
-    def __init__(self, frame_info=None, config: LoggerConfig = LoggerConfig()):
+    def __init__(self, frame_info=None, config: LoguruConfig = LoguruConfig()):
         self.__frame_info = frame_info or {}
         self.__cached_logger = None
         self.__config = config
@@ -229,13 +229,6 @@ class LoguruWrapper:
         # return lazy_logger().debug(message, *transformed_args)
 
         logger_instance = self.lazy_logger()
-        logger_instance.remove()  # Remove default sink
-        logger_instance.add(
-            sys.stderr, format="<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "
-            "<level>{level: <8}</level> | "
-            "<cyan>{extra[module_name]}:{extra[caller_name]}</cyan>:<cyan>{extra[caller_line]}</cyan> | "
-            "<level>{message}</level>"
-        )
 
         bound_logger = logger_instance.bind(
             caller_name=self.caller_name(),
