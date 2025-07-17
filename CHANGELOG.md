@@ -1,3 +1,9 @@
+## 0.2.1 (2025-07-17)
+
+### Fix
+
+- **logger_wrapper**: renamed and defined default loglevel to DEBUG
+
 ## 0.2.0 (2025-07-17)
 
 ### Feat
