@@ -43,7 +43,10 @@ import traceback
 
 # 3rd party imports
 from loguru import logger as loguru_logger
-from loguru_wrapper.loguru_config import LoguruConfig
+try:
+    from loguru_wrapper.loguru_config import LoguruConfig
+except ImportError:
+    from .loguru_config import LoguruConfig
 
 if TYPE_CHECKING:
     from loguru import Logger

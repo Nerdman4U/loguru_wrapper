@@ -7,7 +7,8 @@ from unittest.mock import patch, MagicMock
 import sys
 from loguru import logger as loguru_logger
 
-from loguru_wrapper import loguru, LoguruWrapper
+from loguru_wrapper import loguru
+from loguru_wrapper.wrapper import LoguruWrapper
 from loguru_wrapper.loguru_config import LoguruConfig
 
 
@@ -98,7 +99,7 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
         self.assertEqual(result[0](), "func_result")
         self.assertEqual(result[1](), "string_value")
 
-    @patch('loguru_wrapper.loguru_wrapper.loguru_logger')
+    @patch('loguru_wrapper.loguru')
     def test_lazy_logger_caching(self, mock_loguru):
         """Test that lazy_logger caches the logger instance."""
         mock_logger_instance = MagicMock()
@@ -114,7 +115,7 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
 
         self.assertIs(result1, result2)
 
-    @patch('loguru_wrapper.loguru_wrapper.loguru_logger')
+    @patch('loguru_wrapper.loguru')
     def test_debug_method(self, mock_loguru):  # pylint: disable=unused-argument
         """Test debug logging method."""
         wrapper = LoguruWrapper()
@@ -123,7 +124,7 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
             mock_do_log.assert_called_once_with(
                 "test message", "arg1", method_name="debug")
 
-    @patch('loguru_wrapper.loguru_wrapper.loguru_logger')
+    @patch('loguru_wrapper.loguru')
     def test_info_method(self, mock_loguru):  # pylint: disable=unused-argument
         """Test info logging method."""
         wrapper = LoguruWrapper()
@@ -132,7 +133,7 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
             mock_do_log.assert_called_once_with(
                 "test message", "arg1", method_name="info")
 
-    @patch('loguru_wrapper.loguru_wrapper.loguru_logger')
+    @patch('loguru_wrapper.loguru')
     def test_success_method(self, mock_loguru):  # pylint: disable=unused-argument
         """Test success logging method."""
         wrapper = LoguruWrapper()
@@ -141,7 +142,7 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
             mock_do_log.assert_called_once_with(
                 "test message", "arg1", method_name="success")
 
-    @patch('loguru_wrapper.loguru_wrapper.loguru_logger')
+    @patch('loguru_wrapper.loguru')
     def test_warning_method(self, mock_loguru):  # pylint: disable=unused-argument
         """Test warning logging method."""
         wrapper = LoguruWrapper()
@@ -150,7 +151,7 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
             mock_do_log.assert_called_once_with(
                 "test message", "arg1", method_name="warning")
 
-    @patch('loguru_wrapper.loguru_wrapper.loguru_logger')
+    @patch('loguru_wrapper.loguru')
     def test_error_method(self, mock_loguru):  # pylint: disable=unused-argument
         """Test error logging method."""
         wrapper = LoguruWrapper()
@@ -159,7 +160,7 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
             mock_do_log.assert_called_once_with(
                 "test message", "arg1", method_name="error")
 
-    @patch('loguru_wrapper.loguru_wrapper.loguru_logger')
+    @patch('loguru_wrapper.loguru')
     def test_critical_method(self, mock_loguru):  # pylint: disable=unused-argument
         """Test critical logging method."""
         wrapper = LoguruWrapper()

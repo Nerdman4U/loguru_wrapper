@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 from stackwalker import stackwalker
 
 # 1st party imports
-from loguru_wrapper.loguru_wrapper import LoguruWrapper
+from loguru_wrapper.wrapper import LoguruWrapper
 from loguru_wrapper.loguru_config import LoguruConfig
 
 try:
@@ -82,6 +82,7 @@ if __name__ == "__main__":
         item_count = 5
         loguru().debug("User: {}", get_username)  # Lazy evaluation
         loguru().info("Processing %s items", item_count)  # Format conversion
+        loguru().structured("user_login", user_id=123, success=True)
 
     def my_function2():
         """Another example function to show different log levels."""
