@@ -3,7 +3,7 @@ Generated unittests for generated utility methods.
 """
 
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, MagicMock, PropertyMock
 import sys
 from loguru import logger as loguru_logger
 
@@ -304,8 +304,24 @@ class TestLoguruWrapper(unittest.TestCase):  # pylint: disable=too-many-public-m
             return "john_doe"
         item_count = 5
 
-        loguru().debug("User: {}", get_username)  # Lazy evaluation
-        loguru().info("Processing %s items", item_count)  # Format conversion
+        # 1. properties must be patched with PropertyMock
+        # 2. patch.object is class level patching, before instance
+        with patch.object(LoguruConfig, "ns_log_level", new_callable=PropertyMock) as mock_level:
+            mock_level.return_value = "WARNING"
+            config = LoguruConfig()
+            assert config.ns_log_level == "WARNING"
+
+            loguru().debug("User: {}", get_username)  # Lazy evaluation
+            loguru().info("Processing %s items", item_count)  # Format conversion
+
+    def test_should_crash_if_wrong_log_level(self):
+        """Test that an invalid log level raises a TypeError."""
+        with patch.object(LoguruConfig, "ns_log_level", new_callable=PropertyMock) as mock_level:
+            mock_level.return_value = "WOW"
+            config = LoguruConfig()
+            assert config.ns_log_level == "WOW"
+            with self.assertRaises(ValueError):
+                loguru().debug("User: testi")
 
 
 if __name__ == '__main__':

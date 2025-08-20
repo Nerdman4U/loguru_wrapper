@@ -6,3 +6,4 @@
 
 # Build
 **/*.egg-info
+dist

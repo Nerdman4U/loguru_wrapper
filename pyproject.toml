@@ -3,12 +3,19 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Development Status :: 4 - Beta",
+]
 name = "loguru_wrapper"
 authors = [{ name = "Joni Töyrylä", email = "info@jonitoyryla.eu" }]
 version = "0.2.1"
-description = ""
+readme = "README.md"
 requires-python = ">=3.10"
 dependencies = ["loguru>=0.7.3", "stackwalker>=0.4.2"]
+urls = { "Source" = "https://github.com/Nerdman4U/loguru_wrapper" }
+license = "MIT"
 
 [tool.setuptools.packages.find]
 where = ["src"]

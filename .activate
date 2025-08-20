@@ -3,6 +3,7 @@ source .venv/bin/activate
 
 # PYTHONPATH
 export PYTHONPATH=$PYTHONPATH:/opt/workspace/loguru_wrapper/src
+export PYTHONPATH=$PYTHONPATH:$HOME/.local/lib/python3.10/site-packages
 
 # PATH
 export PATH=$PATH:/opt/workspace/loguru_wrapper/bin
