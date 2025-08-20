@@ -111,7 +111,7 @@ class LoguruWrapper:
             logger_instance.add(
                 self.__config.sink,
                 format=self.__config.format_string,
-                level=self.__config.default_level,
+                level=self.__config.ns_log_level,
             )
 
             if self.__config.enable_lazy:

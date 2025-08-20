@@ -1,6 +1,7 @@
 """
 loguru_config.py
 """
+import os
 import sys
 from dataclasses import dataclass
 
@@ -18,3 +19,8 @@ class LoguruConfig:
     default_level: str = "DEBUG"
     enable_lazy: bool = True
     sink = sys.stderr
+
+    @property
+    def ns_log_level(self) -> str:
+        """Get the log level from the environment or use the default."""
+        return os.environ.get("GIM_LOG_LEVEL", self.default_level)
